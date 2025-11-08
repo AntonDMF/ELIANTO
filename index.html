@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Benvenuto</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="description" content="Pagina di presentazione con possibilità di dare un contributo." />
+</head>
+<body class="hero">
+  <div class="overlay">
+    <main class="container">
+      <h1>Grazie per essere qui con noi</h1>
+      <p class="lead">Se vuoi, puoi lasciare un contributo per aiutarci a costruire la nostra avventura.</p>
+      <a class="btn" href="/contributo.html" aria-label="Vai alla pagina per dare un contributo">
+        contributo
+      </a>
+    </main>
+    <footer class="foot">© <span id="year"></span> • Elianto. Tutti i diritti riservati</footer>
+  </div>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
