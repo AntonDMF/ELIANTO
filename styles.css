@@ -57,7 +57,7 @@ body{
 
 /* Box grigio centrato sopra al testo (se hai l’elemento .logo-box in HTML) */
 .logo-box{
-  width:300px; height:100px;
+  width:160px; height:80px;
   max-width:90vw; max-height:60vh;
   background:#888;              /* sostituirai con il PNG */
   border-radius:12px;
