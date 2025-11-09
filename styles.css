@@ -19,7 +19,7 @@ body{
   background-repeat:no-repeat;
   background-size:cover;
   /*background-attachment:fixed;*/
-  background-attachment:scroll;
+  background-attachment:fixed;
   background-position:center;
   min-height:100vh;
   display: flex;              /* AGGIUNGI */
@@ -28,41 +28,50 @@ body{
 
 /* ===== HERO HOME — TUTTO CENTRATO ===== */
 .hero{
-  position:relative;
-  /* fallback + viewport dinamico per mobile */
-  min-height:100vh;
-  min-height:100svh;
-  min-height:100dvh;
-  overflow:hidden;
-}
-.hero .overlay{
-  position:absolute; inset:0;
-  background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
-  z-index:0;
+  min-height: 100dvh;
+  background-image: url("bg.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
 }
 
-/*Contenitore centrale: grid per centratura perfetta */
-.hero .container{
-  position:relative; z-index:1;
-  display:grid;
-  place-items:center;           /* centro orizzontale + verticale */
-  gap:26px;
-  text-align:center;
-  max-width:var(--max);
-  margin-inline:auto;
-  padding:0 16px;
-  /* fa sì che l'area centrata occupi tutto lo schermo */
-  min-height:inherit;           /* eredita 100vh/100dvh dalla .hero */
-  color:#fff;
+/* L'overlay WRAPPA il contenuto: qui creo la velatura scura DIETRO ai contenuti */
+.overlay{
+  position: relative;
+  min-height: 100dvh;
+}
+.overlay::before{
+  content: "";
+  position: fixed;           /* copre sempre il viewport mentre scrolli */
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* Contenitore centrale: centrato orizz./vert. su qualunque device */
+.container{
+  position: relative;
+  z-index: 1;                /* sopra l'overlay */
+  display: grid;
+  place-items: center;       /* centro completo */
+  gap: 26px;
+  text-align: center;
+  max-width: min(960px, 92vw);
+  margin: 0 auto;
+  padding: 0 16px 90px;      /* spazio per footer fisso */
+  min-height: 100dvh;        /* occupa l'altezza del viewport */
+  color: #fff;
 }
 
 /* Box grigio centrato sopra al testo (se hai l’elemento .logo-box in HTML) */
-.logo-box{
-  width:160px; height:80px;
-  max-width:90vw; max-height:60vh;
-  background:#888 url('logo.png')      /* sostituirai con il PNG */
-  border-radius:12px;
-  box-shadow:var(--shadow);
+.logo{
+  width: clamp(220px, 60vw, 420px);  /* si adatta al device */
+  height: auto;                      /* mantiene le proporzioni del file */
+  display: block;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+  margin-bottom: 30px;
 }
 
 /* Se NON hai l’elemento .logo-box in HTML e vuoi generarlo via CSS: 
