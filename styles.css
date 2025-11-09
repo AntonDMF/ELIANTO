@@ -79,6 +79,7 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
 
 /* ===== FOOTER SEMPRE IN FONDO (bianco) ===== */
 .foot{
+  position:fixed;
   left:50%;
   bottom:12px;
   transform:translateX(-50%);
