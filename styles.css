@@ -132,10 +132,14 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
   margin-top:16px; color:var(--muted); font-size:15px;
 }
 
-/* Footer home: sempre centrato e in fondo */
+/* Footer home: bianco, centrato e sempre in fondo */
 .foot{
-  opacity:.78; text-align:center; padding:24px; color:#fff;
-  margin-top:auto;                 /* spinge il footer in fondo */
+  color:#fff;
+  text-align:center;
+  font-size:15px;
+  padding:24px 0;
+  margin-top:auto;           /* resta in fondo anche con poco contenuto */
+  opacity:1;                 /* testo bianco pieno */
 }
 
 /* ===== RESPONSIVE ===== */
