@@ -11,6 +11,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{height:100%}
 
+/* Layout: footer sempre in fondo */
 body{
   font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
   color:var(--fg);
@@ -20,20 +21,54 @@ body{
   background-size:cover;
   background-attachment:fixed;
   background-position:center;
+
+  min-height:100vh;
+  display:flex;                /* hero riempie lo spazio, footer resta in fondo */
+  flex-direction:column;
 }
 
 /* ===== HOME / HERO ===== */
 .hero{
-  position:relative; min-height:100vh;
-  display:flex; align-items:center; justify-content:center; text-align:center;
+  position:relative;
+  min-height:100vh;
+  flex:1 1 auto;              /* occupa lo spazio disponibile sopra il footer */
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
 }
 .hero .overlay{
   position:absolute; inset:0;
   background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
 }
 .hero .container{
-  position:relative; z-index:1; max-width:var(--max); padding:0 16px; color:#fff;
+  position:relative; z-index:1;
+  max-width:var(--max);
+  padding:120px 16px 0;       /* padding superiore richiesto */
+  color:#fff;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-start;
+  gap:22px;
 }
+
+/* Box grigio centrato (sostituibile con png in futuro) */
+.logo-box{
+  width:350px;
+  height:250px;
+  max-width:92vw;             /* sicurezza su schermi molto piccoli */
+  background:#888;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* Per sostituire con immagine: tieni la stessa classe e aggiungi sotto quando avrai il logo
+.logo-box{
+  background:#888 url('logo.png') no-repeat center/contain;
+}
+*/
+
 h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
 .lead{font-size:clamp(16px,2.5vw,22px); opacity:.95; margin:0 0 28px}
 .btn{
@@ -75,9 +110,7 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
 }
 
 /* Riga IBAN con bottone a destra */
-.row.iban{
-  align-items:center;
-}
+.row.iban{ align-items:center; }
 .iban-value{
   flex:1 1 auto; font-size:22px; font-weight:800; letter-spacing:.02em;
   word-break:break-all;           /* l'IBAN va a capo ma resta nella stessa riga del bottone */
@@ -99,8 +132,11 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
   margin-top:16px; color:var(--muted); font-size:15px;
 }
 
-/* Footer home */
-.foot{opacity:.78; text-align:center; padding:24px; color:#fff}
+/* Footer home: sempre centrato e in fondo */
+.foot{
+  opacity:.78; text-align:center; padding:24px; color:#fff;
+  margin-top:auto;                 /* spinge il footer in fondo */
+}
 
 /* ===== RESPONSIVE ===== */
 @media (max-width:680px){
