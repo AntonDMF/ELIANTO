@@ -41,31 +41,20 @@ body{
   z-index:0;
 }
 
-.hero .container::before{
-  content:"";
-  display:block;
-  width:clamp(220px, 60vw, 420px);
-  aspect-ratio:3 / 1;
-  background:#888;
-  border-radius:12px;
-  box-shadow:var(--shadow);
-  margin-bottom:30px;
-}
-
-/*Contenitore centrale: grid per centratura perfetta 
+/*Contenitore centrale: grid per centratura perfetta */
 .hero .container{
   position:relative; z-index:1;
   display:grid;
-  place-items:center;           /* centro orizzontale + verticale 
+  place-items:center;           /* centro orizzontale + verticale */
   gap:26px;
   text-align:center;
   max-width:var(--max);
   margin-inline:auto;
   padding:0 16px;
-  /* fa sì che l'area centrata occupi tutto lo schermo 
-  min-height:inherit;           /* eredita 100vh/100dvh dalla .hero 
+  /* fa sì che l'area centrata occupi tutto lo schermo */
+  min-height:inherit;           /* eredita 100vh/100dvh dalla .hero */
   color:#fff;
-}*/
+}
 
 /* Box grigio centrato sopra al testo (se hai l’elemento .logo-box in HTML) */
 .logo-box{
