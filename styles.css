@@ -35,32 +35,37 @@ body{
 .hero .overlay{
   position:absolute; inset:0;
   background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
-  z-index:0; /* l'overlay resta sotto il contenuto e sotto il footer fissato */
+  z-index:0;
 }
 .hero .container{
   position:relative; z-index:1;
   max-width:var(--max);
-  padding:120px 16px 0;       /* padding superiore richiesto */
-  color:#fff;
+  color:#fff;                      /* testo bianco nella hero */
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:flex-start;
   gap:22px;
+  padding:140px 16px 0;            /* padding superiore richiesto */
 }
 
-/* Box grigio centrato (temporaneo; sostituibile con PNG) */
-.logo-box{
-  width:350px;
-  height:250px;
-  max-width:92vw;
-  background:#888;
+/* BOX grigio sopra al testo — nessun cambio HTML */
+.hero .container::before{
+  content:"";
+  display:block;
+  width:min(350px, 92vw);
+  aspect-ratio:7 / 5;              /* 350x250 */
+  height:auto;
+  background:#888;                  /* grigio pieno */
   border-radius:12px;
   box-shadow:var(--shadow);
+  margin:0 auto 10px;
 }
 
-/* Per sostituire con immagine, quando pronta:
-.logo-box{ background:#888 url('logo.png') no-repeat center/contain; }
+/* Quando avrai il logo PNG, puoi usare QUESTO override (facoltativo)
+.hero.logo-image .container::before{
+  background:#888 url('logo.png') center/contain no-repeat;
+}
 */
 
 h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
@@ -74,16 +79,16 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
 
 /* ===== FOOTER SEMPRE IN FONDO (bianco) ===== */
 .foot{
-  position:fixed;           /* resta sempre in fondo a prescindere dall'altezza del contenuto */
+  position:fixed;
   left:50%;
   bottom:12px;
   transform:translateX(-50%);
   width:100%;
   text-align:center;
-  color:#fff;               /* bianco pieno */
+  color:#fff;                       /* bianco pieno */
   padding:0 16px;
-  z-index:9999;             /* sopra overlay e resto della pagina */
-  text-shadow:0 2px 6px rgba(0,0,0,.55); /* leggibile su sfondi chiari/scuri */
+  z-index:9999;
+  text-shadow:0 2px 6px rgba(0,0,0,.55);
   opacity:1;
 }
 
