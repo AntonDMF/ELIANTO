@@ -1,113 +1,116 @@
-/* ======== BASE ======== */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ===== BASE ===== */
+:root{
+  --fg:#111;        /* testo scuro */
+  --muted:#666;
+  --btn:#000; --btn-fg:#fff;
+  --glass:rgba(255,255,255,.82);
+  --shadow:0 10px 30px rgba(0,0,0,.15);
+  --max:min(960px,92vw);
 }
 
-html, body {
-  height: 100%;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  color: #111; /* testo scuro in tutto il sito */
-  background: #fff;
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+
+body{
+  font:16px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+  color:var(--fg);
+  background:#fff;
+  background-image:url("bg.jpeg");          /* sfondo dalla root */
+  background-repeat:no-repeat;
+  background-size:cover;
+  background-attachment:fixed;
+  background-position:center;
 }
 
-/* ======== BACKGROUND ======== */
-body {
-  background-image: url("bg.jpg");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-attachment: fixed;
-  background-position: center center;
+/* ===== HOME / HERO ===== */
+.hero{
+  position:relative; min-height:100vh;
+  display:flex; align-items:center; justify-content:center; text-align:center;
+}
+.hero .overlay{
+  position:absolute; inset:0;
+  background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
+}
+.hero .container{
+  position:relative; z-index:1; max-width:var(--max); padding:0 16px; color:#fff;
+}
+h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
+.lead{font-size:clamp(16px,2.5vw,22px); opacity:.95; margin:0 0 28px}
+.btn{
+  display:inline-block; padding:14px 22px; border-radius:999px;
+  background:var(--btn); color:var(--btn-fg); text-decoration:none; font-weight:600;
+  box-shadow:var(--shadow); transition:opacity .2s;
+}
+.btn:hover{opacity:.9}
+
+/* ===== PAGINE INTERNE (CONTRIBUTO) ===== */
+.page{background:linear-gradient(180deg,#ffffff,#fafafa)}
+.topbar{max-width:var(--max); margin:0 auto; padding:16px}
+.link{color:#0066cc; text-decoration:none}
+.link:hover{text-decoration:underline}
+
+/* Card centrale */
+.panel{max-width:var(--max); margin:4vh auto 10vh; padding:0 16px}
+.panel h1{font-size:42px; margin:0 0 8px; color:var(--fg)}
+.muted{color:var(--muted); margin:0 0 18px}
+
+.card{
+  background:var(--glass); backdrop-filter:blur(6px);
+  border:1px solid rgba(0,0,0,.05);
+  border-radius:18px; padding:18px; box-shadow:var(--shadow);
 }
 
-/* ======== HERO (home) ======== */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: #fff; /* testo chiaro solo qui sopra lo sfondo */
-  background: rgba(0,0,0,0.4);
+/* Righe label/valore */
+.row{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:14px; padding:12px 4px; flex-wrap:nowrap;
+}
+.label{
+  font-size:12px; text-transform:uppercase; letter-spacing:.06em;
+  color:var(--muted); flex:0 0 auto; min-width:140px;
+}
+.value{
+  flex:1 1 auto; font-size:20px; font-weight:700; color:var(--fg);
+  word-break:break-word;
 }
 
-/* ======== OVERLAY (se presente) ======== */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
-  z-index: 0;
+/* Riga IBAN con bottone a destra */
+.row.iban{
+  align-items:center;
+}
+.iban-value{
+  flex:1 1 auto; font-size:22px; font-weight:800; letter-spacing:.02em;
+  word-break:break-all;           /* l'IBAN va a capo ma resta nella stessa riga del bottone */
+}
+.copy-wrap{
+  flex:0 0 auto; display:flex; align-items:center; justify-content:flex-end;
+}
+.copy-btn{
+  display:inline-flex; align-items:center; gap:8px;
+  padding:12px 18px; border-radius:999px; border:0;
+  background:#000; color:#fff; font-weight:700; cursor:pointer;
+  box-shadow:var(--shadow);
+  white-space:nowrap;                 /* resta sulla stessa riga dell'IBAN */
+}
+.copy-btn:hover{opacity:.9}
+
+/* Suggerimento in fondo */
+.hint{
+  margin-top:16px; color:var(--muted); font-size:15px;
 }
 
-/* ======== CONTAINER ======== */
-.container {
-  position: relative;
-  z-index: 1;
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 16px;
-}
+/* Footer home */
+.foot{opacity:.78; text-align:center; padding:24px; color:#fff}
 
-/* ======== TIPOGRAFIA ======== */
-h1, h2, h3 {
-  font-weight: 700;
-  color: #111; /* titoli scuri */
-  margin-bottom: 10px;
+/* ===== RESPONSIVE ===== */
+@media (max-width:680px){
+  .label{min-width:110px}
+  .iban-value{font-size:20px}
+  .copy-btn{padding:11px 16px}
 }
-
-p, li, span, div {
-  color: #222; /* testo scuro anche nei paragrafi */
-  line-height: 1.6;
-  font-size: 16px;
-}
-
-.lead {
-  font-size: 20px;
-  color: #333;
-  opacity: 0.95;
-  margin: 10px 0 28px;
-}
-
-/* ======== BOTTONI ======== */
-.btn {
-  display: inline-block;
-  padding: 14px 22px;
-  border-radius: 999px;
-  background: #000;
-  color: #fff;
-  text-decoration: none;
-  font-weight: 600;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  transition: opacity 0.2s ease;
-}
-.btn:hover {
-  opacity: 0.9;
-}
-
-/* ======== CARD / CONTENITORI ======== */
-.card {
-  background: rgba(255,255,255,0.8);
-  border-radius: 18px;
-  padding: 18px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  color: #111;
-}
-
-/* ======== PAGINA CONTRIBUTO ======== */
-.page {
-  background: rgba(255,255,255,0.9);
-  color: #111;
-}
-
-.label {
-  color: #666;
-  font-size: 14px;
-  text-transform: uppercase;
-}
-
-.value {
-  color: #000;
-  font-weight: 600;
-  font-size: 18px;
+@media (max-width:460px){
+  .label{min-width:96px}
+  .row{gap:10px}
+  .iban-value{font-size:18px}
+  .copy-btn{padding:10px 14px}
 }
