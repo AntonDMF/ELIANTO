@@ -1,173 +1,114 @@
-:root {
-  --fg: #111;
-  --bg: #fff;
+:root{
+  --fg: #111;            /* testo scuro globale */
   --muted: #666;
   --btn: #000;
   --btn-fg: #fff;
-  --glass: rgba(255, 255, 255, 0.7);
-  --shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+  --glass: rgba(255,255,255,0.78);
+  --shadow: 0 10px 30px rgba(0,0,0,0.15);
   --max: min(960px, 92vw);
 }
 
-* {
-  box-sizing: border-box;
+*{ box-sizing:border-box; }
+
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  color: var(--fg);                           /* testo scuro per tutte le pagine */
+  font: 16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  background: url("bg.jpg") center/cover no-repeat fixed; /* sfondo globale */
+  background-color: #f2f2f2;                  /* fallback */
 }
 
-html, body {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  color: #fff;
-  font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial;
-  background: url("bg.jpg") center center / cover no-repeat fixed;
-}
-
-/* ----- HERO SECTION ----- */
-.hero {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+/* ---------- HERO (home) ---------- */
+.hero{
   position: relative;
-  z-index: 1;
+  min-height: 100vh;                          /* sezione a pieno schermo */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
-
-/* Overlay scuro per rendere leggibile il testo sullo sfondo */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.55));
+/* layer con lo sfondo: rende lo sfondo certo anche se il body è cacheato */
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background: url("bg.jpg") center/cover no-repeat fixed;
   z-index: 0;
 }
-
-/* Contenitore principale */
-.container {
-  position: relative;
+/* velatura per rendere leggibile il testo */
+.overlay{
+  position:absolute; inset:0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
   z-index: 1;
+}
+/* contenuti in primo piano e testo chiaro nella hero */
+.container{
+  position: relative; z-index: 2;
   max-width: var(--max);
   margin: 0 auto;
   padding: 0 16px;
+  color: #fff;                                /* testo chiaro SOLO nella hero */
 }
+h1{ font-size: clamp(32px,6vw,56px); margin:0 0 10px; }
+.lead{ font-size: clamp(16px,2.5vw,22px); opacity:.95; margin:0 0 28px; }
 
-h1 {
-  font-size: clamp(32px, 6vw, 56px);
-  margin: 0 0 10px;
-}
-
-.lead {
-  font-size: clamp(16px, 2.5vw, 22px);
-  opacity: 0.95;
-  margin: 0 0 28px;
-}
-
-/* Bottoni */
-.btn {
-  display: inline-block;
-  padding: 14px 22px;
-  border-radius: 999px;
+/* ---------- Bottoni ---------- */
+.btn{
+  display:inline-block;
+  padding:14px 22px;
+  border-radius:999px;
   background: var(--btn);
   color: var(--btn-fg);
-  text-decoration: none;
-  font-weight: 600;
+  text-decoration:none;
+  font-weight:600;
   box-shadow: var(--shadow);
-  transition: opacity 0.25s ease;
+  transition: opacity .2s ease;
 }
-
-.btn:hover {
-  opacity: 0.9;
-}
-
-.btn.ghost {
-  background: transparent;
+.btn:hover{ opacity:.9; }
+.btn.ghost{
+  background:transparent;
   color: var(--fg);
-  border: 1px solid #ddd;
-  box-shadow: none;
-  border-radius: 10px;
-  padding: 10px 14px;
+  border:1px solid #ddd;
+  box-shadow:none;
+  border-radius:10px;
+  padding:10px 14px;
 }
 
-/* Footer */
-.foot {
-  opacity: 0.75;
-  text-align: center;
-  padding: 24px;
-}
+/* ---------- Footer ---------- */
+.foot{ opacity:.75; text-align:center; padding:24px; color:#fff; }
 
-/* Sezioni interne (pagina contributo) */
-.page {
-  background: linear-gradient(180deg, #fafafa, #ffffff);
+/* ---------- Pagine interne (contributo) ---------- */
+.page{
+  background: linear-gradient(180deg,#ffffff,#fafafa);
+  color: var(--fg);                            /* testo scuro nelle pagine interne */
 }
+.topbar{ max-width:var(--max); margin:0 auto; padding:16px; }
+.link{ color:#0066cc; text-decoration:none; }
+.link:hover{ text-decoration:underline; }
 
-.topbar {
-  max-width: var(--max);
-  margin: 0 auto;
-  padding: 16px;
-}
+/* Card / pannelli info */
+.panel{ max-width:var(--max); margin:4vh auto 10vh; padding:0 16px; }
+.panel h1{ margin:0 0 8px; color: var(--fg); }
+.muted{ color: var(--muted); margin:0 0 18px; }
 
-.link {
-  color: #0066cc;
-  text-decoration: none;
-}
-
-.link:hover {
-  text-decoration: underline;
-}
-
-/* Pannello info */
-.panel {
-  max-width: var(--max);
-  margin: 4vh auto 10vh;
-  padding: 0 16px;
-}
-
-.panel h1 {
-  margin: 0 0 8px;
-}
-
-.muted {
-  color: var(--muted);
-  margin: 0 0 18px;
-}
-
-.card {
+.card{
   background: var(--glass);
   backdrop-filter: blur(6px);
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 18px;
-  padding: 18px;
+  border:1px solid rgba(0,0,0,.05);
+  border-radius:18px;
+  padding:18px;
   box-shadow: var(--shadow);
+  color: var(--fg);                            /* testo leggibile nella card */
 }
-
-.row {
-  display: flex;
-  gap: 14px;
-  align-items: center;
-  justify-content: space-between;
-  padding: 10px 4px;
-  flex-wrap: wrap;
+.row{
+  display:flex; gap:14px; align-items:center; justify-content:space-between;
+  padding:10px 4px; flex-wrap:wrap;
 }
-
-.label {
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+.label{
+  font-size:12px; text-transform:uppercase; letter-spacing:.06em;
   color: var(--muted);
 }
-
-.value {
-  font-size: 18px;
-  font-weight: 600;
-}
-
-.mono {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-}
-
-.hint {
-  color: var(--muted);
-  margin-top: 12px;
-}
+.value{ font-size:18px; font-weight:600; color: var(--fg); }
+.mono{ font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace; }
+.hint{ color: var(--muted); margin-top:12px; }
