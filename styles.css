@@ -8,7 +8,9 @@ html,body{height:100%}
 body{margin:0; color:var(--fg); background:var(--bg); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Arial}
 
 .hero{
-  background: url("./bg.jpg") center/cover no-repeat fixed;
+  min-height: 100vh;               /* <- dà altezza alla sezione */
+  background: url("bg.jpg") center/cover no-repeat fixed; /* ora punta alla root */
+  display: block;
 }
 
 .overlay{
