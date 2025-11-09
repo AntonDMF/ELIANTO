@@ -25,43 +25,81 @@ body{
   flex-direction: column;     /* AGGIUNGI */
 }
 
-/* ===== HOME / HERO ===== */
+/* ===== HERO HOME — TUTTO CENTRATO ===== */
 .hero{
   position:relative;
+  /* fallback + viewport dinamico per mobile */
   min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
+  min-height:100svh;
+  min-height:100dvh;
+  overflow:hidden;
 }
 .hero .overlay{
   position:absolute; inset:0;
   background:linear-gradient(to bottom, rgba(0,0,0,.35), rgba(0,0,0,.55));
   z-index:0;
 }
+
+/* Contenitore centrale: grid per centratura perfetta */
 .hero .container{
   position:relative; z-index:1;
+  display:grid;
+  place-items:center;           /* centro orizzontale + verticale */
+  gap:26px;
+  text-align:center;
   max-width:var(--max);
-  color:#fff;                      /* testo bianco nella hero */
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:flex-start;
-  gap:22px;
-  padding:140px 16px 0;            /* padding superiore richiesto */
+  margin-inline:auto;
+  padding:0 16px;
+  /* fa sì che l'area centrata occupi tutto lo schermo */
+  min-height:inherit;           /* eredita 100vh/100dvh dalla .hero */
+  color:#fff;
 }
 
-/* BOX grigio sopra al testo — nessun cambio HTML */
-.hero .container::before{
-  content:"";
-  display:block;
-  width:min(100px, 92vw);
-  aspect-ratio:3 / 1;              /* 300x100 */
-  height:auto;
-  background:#888;                  /* grigio pieno */
+/* Box grigio centrato sopra al testo (se hai l’elemento .logo-box in HTML) */
+.logo-box{
+  width:350px; height:250px;
+  max-width:90vw; max-height:60vh;
+  background:#888;              /* sostituirai con il PNG */
   border-radius:12px;
   box-shadow:var(--shadow);
-  margin:0 auto 10px;
+}
+
+/* Se NON hai l’elemento .logo-box in HTML e vuoi generarlo via CSS: */
+.hero .container::before{
+  content:""; display:block;
+  width:min(350px,90vw); height:min(250px,60vh);
+  background:#888;
+  border-radius:12px;
+  box-shadow:var(--shadow);
+}
+
+/* Testi e bottone */
+h1{
+  font-size:clamp(32px,6vw,56px);
+  line-height:1.1;
+  margin:0;
+}
+.lead{
+  font-size:clamp(16px,2.5vw,22px);
+  opacity:.95;
+  margin:0;
+}
+.btn{
+  display:inline-block;
+  padding:14px 28px;
+  border-radius:999px;
+  background:var(--btn);
+  color:var(--btn-fg);
+  text-decoration:none;
+  font-weight:600;
+  box-shadow:var(--shadow);
+  transition:opacity .2s;
+}
+.btn:hover{opacity:.9}
+
+/* Mobile fine-tuning */
+@media (max-width:680px){
+  .logo-box{width:280px; height:200px;}
 }
 
 /* Quando avrai il logo PNG, puoi usare QUESTO override (facoltativo)
