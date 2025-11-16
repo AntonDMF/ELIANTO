@@ -1,0 +1,63 @@
+<section class="upload-box">
+  <h2>Carica la tua foto</h2>
+  
+  <form id="upload-form">
+    <label>
+      Il tuo nome:
+      <input type="text" id="name" required />
+    </label>
+
+    <label>
+      Scegli una foto:
+      <input type="file" id="file" accept="image/*" required />
+    </label>
+
+    <button type="submit">Carica</button>
+  </form>
+
+  <p id="upload-status"></p>
+</section>
+
+<!-- Supabase client CDN -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+  const SUPABASE_URL = "https://vycajkaqnbodzzswjyty.supabase.co";
+  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5Y2Fqa2FxbmJvZHp6c3dqeXR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwNDEyNTEsImV4cCI6MjA3MzYxNzI1MX0.Y17IuYuGxF_0V7m5KxlJqvEeHKV_Q95_CM_nGP8d46Y";
+
+  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+    auth: { persistSession: false }
+  });
+
+  const form = document.getElementById('upload-form');
+  const statusEl = document.getElementById('upload-status');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusEl.textContent = "Caricamento...";
+
+    const name = document.getElementById('name').value.trim();
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      statusEl.textContent = "Seleziona una foto.";
+      return;
+    }
+
+    // nome file unico
+    const ext = file.name.split('.').pop();
+    const path = `${Date.now()}_${name.replace(/\s+/g,'_')}.${ext}`;
+
+    const { error } = await supabase.storage.from("uploads").upload(path, file);
+
+    if (error) {
+      console.error(error);
+      statusEl.textContent = "Errore durante upload.";
+      return;
+    }
+
+    statusEl.textContent = "Fatto! Grazie.";
+    form.reset();
+  });
+</script>
