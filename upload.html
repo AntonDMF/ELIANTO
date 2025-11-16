@@ -1,63 +1,100 @@
-<section class="upload-box">
-  <h2>Carica la tua foto</h2>
-  
-  <form id="upload-form">
-    <label>
-      Il tuo nome:
-      <input type="text" id="name" required />
-    </label>
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Carica una foto - Elianto</title>
+  <link rel="stylesheet" href="./styles.css?v=5">
+</head>
+<body class="hero">
+  <div class="overlay">
+    <main class="container">
+      <section class="upload-card">
+        <h1>Carica una foto</h1>
+        <p class="upload-subtitle">
+          Lasciaci un ricordo della giornata: inserisci il tuo nome, scegli una foto e premi “Carica la foto”.
+        </p>
 
-    <label>
-      Scegli una foto:
-      <input type="file" id="file" accept="image/*" required />
-    </label>
+        <form id="upload-form" class="upload-form">
+          <div class="field">
+            <label for="name">Il tuo nome</label>
+            <input type="text" id="name" required />
+          </div>
 
-    <button type="submit">Carica</button>
-  </form>
+          <div class="field">
+            <label for="file">Scegli una foto</label>
+            <input type="file" id="file" accept="image/*" required />
+          </div>
 
-  <p id="upload-status"></p>
-</section>
+          <button type="submit" class="btn-upload">
+            <span class="btn-upload-icon">⬆︎</span>
+            <span>Carica la foto</span>
+          </button>
+        </form>
 
-<!-- Supabase client CDN -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <p id="upload-status" class="upload-status" aria-live="polite"></p>
+      </section>
+    </main>
+  </div>
 
-<script>
-  const SUPABASE_URL = "https://vycajkaqnbodzzswjyty.supabase.co";
-  const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5Y2Fqa2FxbmJvZHp6c3dqeXR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwNDEyNTEsImV4cCI6MjA3MzYxNzI1MX0.Y17IuYuGxF_0V7m5KxlJqvEeHKV_Q95_CM_nGP8d46Y";
+  <!-- Supabase client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
-    auth: { persistSession: false }
-  });
+  <script>
+       const SUPABASE_URL = "https://vycajkaqnbodzzswjyty.supabase.co";
+        const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ5Y2Fqa2FxbmJvZHp6c3dqeXR5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgwNDEyNTEsImV4cCI6MjA3MzYxNzI1MX0.Y17IuYuGxF_0V7m5KxlJqvEeHKV_Q95_CM_nGP8d46Y";
 
-  const form = document.getElementById('upload-form');
-  const statusEl = document.getElementById('upload-status');
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { persistSession: false }
+    });
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    statusEl.textContent = "Caricamento...";
+    const form = document.getElementById('upload-form');
+    const statusEl = document.getElementById('upload-status');
 
-    const name = document.getElementById('name').value.trim();
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];
-
-    if (!file) {
-      statusEl.textContent = "Seleziona una foto.";
-      return;
+    function setStatus(message, type = '') {
+      statusEl.textContent = message;
+      statusEl.classList.remove('upload-status--success', 'upload-status--error');
+      if (type) statusEl.classList.add(type);
     }
 
-    // nome file unico
-    const ext = file.name.split('.').pop();
-    const path = `${Date.now()}_${name.replace(/\s+/g,'_')}.${ext}`;
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
 
-    const { error } = await supabase.storage.from("uploads").upload(path, file);
+      const nameInput = document.getElementById('name');
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
+      const name = nameInput.value.trim();
 
-    if (error) {
-      console.error(error);
-      statusEl.textContent = "Errore durante upload.";
-      return;
-    }
+      if (!file) {
+        setStatus("Seleziona una foto.", "upload-status--error");
+        return;
+      }
 
-    statusEl.textContent = "Fatto! Grazie.";
-    form.reset();
-  });
-</script>
+      setStatus("Caricamento in corso...");
+
+      const ext = file.name.split('.').pop() || 'jpg';
+      const safeName = (name || 'ospite').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+      const path = `${Date.now()}_${safeName}.${ext}`;
+
+      const { data, error } = await client
+        .storage
+        .from("uploads")
+        .upload(path, file);
+
+      if (error) {
+        console.error(error);
+        setStatus("Errore durante il caricamento: " + error.message, "upload-status--error");
+        return;
+      }
+
+      setStatus(`Grazie${name ? " " + name : ""}! La tua foto è stata caricata.`, "upload-status--success");
+      form.reset();
+    });
+  </script>
+</body>
+</html>
+
+
+
+
+ 
