@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Dai un contributo</title>
+  <link rel="stylesheet" href="/styles.css" />
+  <meta name="description" content="Coordinate bancarie e pulsante per copiare l'IBAN." />
+</head>
+<body class="page">
+  <header class="topbar">
+    <a class="link" href="/">← Torna alla pagina iniziale</a>
+  </header>
+
+  <main class="panel">
+    <h1>Contributo</h1>
+    <p class="muted">Grazie del supporto! Qui trovi le coordinate bancarie:</p>
+
+    <div class="card">
+      <div class="row">
+        <div>
+          <div class="label">Intestatario</div>
+          <div class="value">Elisa Calderini</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="label">Banca</div>
+          <div class="value">BBVA</div>
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <div class="label">IBAN</div>
+          <div class="value mono" id="iban">IT13D0357601601010005837998</div>
+        </div>
+        <button class="btn ghost" id="copyIban" type="button" aria-label="Copia IBAN negli appunti">📋 Copia IBAN</button>
+      </div>
+      <div class="row">
+        <div>
+          <div class="label">Causale libera</div>
+          <div class="value">Contributo libero</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="hint">Suggerimento: dopo la copia, incolla direttamente nella tua app bancaria.</p>
+  </main>
+
+  <script src="/script.js"></script>
+</body>
+</html>
