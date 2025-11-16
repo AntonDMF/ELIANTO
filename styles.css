@@ -219,3 +219,102 @@ h1{font-size:clamp(32px,6vw,56px); margin:0 0 10px}
   .iban-value{font-size:18px}
   .copy-btn{padding:10px 14px}
 }
+
+.upload-card {
+  max-width: 480px;
+  margin: 3rem auto;
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 18px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.15);
+}
+
+.upload-card h1 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-size: 1.6rem;
+}
+
+.upload-subtitle {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 0.98rem;
+  color: #444;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.field input[type="text"],
+.field input[type="file"] {
+  width: 100%;
+  font-size: 0.95rem;
+}
+
+.btn-upload {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.6rem;
+  border-radius: 999px;
+  border: 1px solid #111;
+  background: #fff;
+  color: #111;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.1s ease;
+}
+
+.btn-upload-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.btn-upload:hover {
+  background: #f3f3f3;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+}
+
+.btn-upload:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.upload-status {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  min-height: 1.2em;
+}
+
+.upload-status--success {
+  color: #0a7b3b;
+}
+
+.upload-status--error {
+  color: #b00020;
+}
+
+/* Responsive: un po' più compatta su schermi piccoli */
+@media (max-width: 600px) {
+  .upload-card {
+    margin: 2rem 1rem;
+    padding: 1.5rem;
+  }
+
+  .upload-card h1 {
+    font-size: 1.4rem;
+  }
+}
