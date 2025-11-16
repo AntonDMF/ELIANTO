@@ -3,50 +3,93 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Dai un contributo</title>
-  <link rel="stylesheet" href="/styles.css" />
-  <meta name="description" content="Coordinate bancarie e pulsante per copiare l'IBAN." />
+  <title>Carica una foto - Elianto</title>
+  <link rel="stylesheet" href="./styles.css?v=5">
 </head>
-<body class="page">
-  <header class="topbar">
-    <a class="link" href="/">← Torna alla pagina iniziale</a>
-  </header>
+<body class="hero">
+  <div class="overlay">
+    <main class="container">
+      <section class="upload-card">
+        <h1>Carica una foto</h1>
+        <p class="upload-subtitle">
+          Lasciaci un ricordo della giornata: inserisci il tuo nome, scegli una foto e premi “Carica la foto”.
+        </p>
 
-  <main class="panel">
-    <h1>Contributo</h1>
-    <p class="muted">Grazie del supporto! Qui trovi le coordinate bancarie:</p>
+        <form id="upload-form" class="upload-form">
+          <div class="field">
+            <label for="name">Il tuo nome</label>
+            <input type="text" id="name" required />
+          </div>
 
-    <div class="card">
-      <div class="row">
-        <div>
-          <div class="label">Intestatario</div>
-          <div class="value">Elisa Calderini</div>
-        </div>
-      </div>
-      <div class="row">
-        <div>
-          <div class="label">Banca</div>
-          <div class="value">BBVA</div>
-        </div>
-      </div>
-      <div class="row">
-        <div>
-          <div class="label">IBAN</div>
-          <div class="value mono" id="iban">IT13D0357601601010005837998</div>
-        </div>
-        <button class="btn ghost" id="copyIban" type="button" aria-label="Copia IBAN negli appunti">📋 Copia IBAN</button>
-      </div>
-      <div class="row">
-        <div>
-          <div class="label">Causale libera</div>
-          <div class="value">Contributo libero</div>
-        </div>
-      </div>
-    </div>
+          <div class="field">
+            <label for="file">Scegli una foto</label>
+            <input type="file" id="file" accept="image/*" required />
+          </div>
 
-    <p class="hint">Suggerimento: dopo la copia, incolla direttamente nella tua app bancaria.</p>
-  </main>
+          <button type="submit" class="btn-upload">
+            <span class="btn-upload-icon">⬆︎</span>
+            <span>Carica la foto</span>
+          </button>
+        </form>
 
-  <script src="/script.js"></script>
+        <p id="upload-status" class="upload-status" aria-live="polite"></p>
+      </section>
+    </main>
+  </div>
+
+  <!-- Supabase client CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+       const SUPABASE_URL = "https://wyadxtseeimhkdcryybz.supabase.co";
+        const SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind5YWR4dHNlZWltaGtkY3J5eWJ6Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjMzMTgzMDUsImV4cCI6MjA3ODg5NDMwNX0.W2FoLEPlZq9IJd80Is57wy6xdZP2JTDasMur1PtcB_o";
+
+    const client = supabase.createClient(SUPABASE_URL, SUPABASE_ANON, {
+      auth: { persistSession: false }
+    });
+
+    const form = document.getElementById('upload-form');
+    const statusEl = document.getElementById('upload-status');
+
+    function setStatus(message, type = '') {
+      statusEl.textContent = message;
+      statusEl.classList.remove('upload-status--success', 'upload-status--error');
+      if (type) statusEl.classList.add(type);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const nameInput = document.getElementById('name');
+      const fileInput = document.getElementById('file');
+      const file = fileInput.files[0];
+      const name = nameInput.value.trim();
+
+      if (!file) {
+        setStatus("Seleziona una foto.", "upload-status--error");
+        return;
+      }
+
+      setStatus("Caricamento in corso...");
+
+      const ext = file.name.split('.').pop() || 'jpg';
+      const safeName = (name || 'ospite').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
+      const path = `${Date.now()}_${safeName}.${ext}`;
+
+      const { data, error } = await client
+        .storage
+        .from("uploads")
+        .upload(path, file);
+
+      if (error) {
+        console.error(error);
+        setStatus("Errore durante il caricamento: " + error.message, "upload-status--error");
+        return;
+      }
+
+      setStatus(`Grazie${name ? " " + name : ""}! La tua foto è stata caricata.`, "upload-status--success");
+      form.reset();
+    });
+  </script>
 </body>
 </html>
