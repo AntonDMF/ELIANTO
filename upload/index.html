@@ -58,38 +58,53 @@
     }
 
     form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+  e.preventDefault();
 
-      const nameInput = document.getElementById('name');
-      const fileInput = document.getElementById('file');
-      const file = fileInput.files[0];
-      const name = nameInput.value.trim();
+  const nameInput = document.getElementById('name');
+  const fileInput = document.getElementById('file');
+  const files = Array.from(fileInput.files);
+  const name = nameInput.value.trim();
 
-      if (!file) {
-        setStatus("Seleziona una foto.", "upload-status--error");
-        return;
-      }
+  if (!files.length) {
+    setStatus("Seleziona almeno una foto.", "upload-status--error");
+    return;
+  }
 
-      setStatus("Caricamento in corso...");
+  setStatus("Caricamento in corso...");
 
-      const ext = file.name.split('.').pop() || 'jpg';
-      const safeName = (name || 'ospite').replace(/\s+/g, '_').replace(/[^a-zA-Z0-9_]/g, '');
-      const path = `${Date.now()}_${safeName}.${ext}`;
+  const safeName = (name || 'ospite')
+    .replace(/\s+/g, '_')
+    .replace(/[^a-zA-Z0-9_]/g, '');
 
-      const { data, error } = await client
-        .storage
-        .from("uploads")
-        .upload(path, file);
+  const bucket = client.storage.from("uploads");
 
+  try {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const ext = (file.name.split('.').pop() || 'jpg').toLowerCase();
+      const path = `${Date.now()}_${safeName}_${i + 1}.${ext}`;
+
+      const { error } = await bucket.upload(path, file);
       if (error) {
         console.error(error);
-        setStatus("Errore durante il caricamento: " + error.message, "upload-status--error");
+        setStatus(
+          `Errore durante il caricamento della foto ${i + 1}: ${error.message}`,
+          "upload-status--error"
+        );
         return;
       }
+    }
 
-      setStatus(`Grazie${name ? " " + name : ""}! La tua foto è stata caricata.`, "upload-status--success");
-      form.reset();
-    });
+    setStatus(
+      `Grazie${name ? " " + name : ""}! ${files.length === 1 ? "La tua foto è stata caricata." : `Sono state caricate ${files.length} foto.`}`,
+      "upload-status--success"
+    );
+    form.reset();
+  } catch (err) {
+    console.error(err);
+    setStatus("Errore imprevisto durante il caricamento.", "upload-status--error");
+  }
+});
   </script>
 </body>
 </html>
